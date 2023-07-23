@@ -145,3 +145,8 @@ temp
 test_dag.py
 .DS_store
 .vscode
+credentials.py
+creds.py
+config.py
+credentials.sh
+creds.sh
