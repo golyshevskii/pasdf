@@ -1,4 +1,4 @@
-DT_NOW := $(shell date) 
+DT_NOW := $(shell date)
 
 poetry-install:
 	@$(info INFO | $(shell date) | Makefile → poetry-install)
@@ -9,3 +9,19 @@ format:
 	poetry run black .
 	poetry run isort .
 	poetry run flake8 .
+
+lint:
+	poetry run black --check .
+	poetry run isort --check .
+
+.PHONY: tests
+
+tests:
+	@$(info INFO | $(shell date) | Makefile → tests)
+	pytest tests/gsheets/tests_gs_main.py -v
+
+
+
+test-coverage:
+	@echo 'Running test coverage with arguments: '$(pytest-args)
+	pytest tests --cov=. --cov-report=term-missing --cov-config=../pyproject.toml -c ../pyproject.toml .
