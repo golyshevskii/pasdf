@@ -5,7 +5,6 @@ sys.path.append("/Users/python_poseur/pasdf_develop/pasdf/")
 from unittest.mock import MagicMock
 
 import pytest
-from googleapiclient.errors import HttpError
 
 from creds import GOOGLE_SHEETS_CREDENTIALS, GS_SPREADSHEET_ID
 from scripts.gsheets.gs_main import GoogleSheets
@@ -27,7 +26,10 @@ class TestGoogleSheets:
         return mock_service
 
     def test_get_spreadsheet_data(self, mock_credentials, mock_service):
-        mock_values = {"values": [["data_row_1"], ["data_row_2"]]}
+        mock_values = {
+            "values": [["id", "key"], ["1", "1234-qwer"], ["2", "qwer-1234"]]
+        }
+
         mock_service_instance = mock_service.return_value
         mock_spreadsheets = mock_service_instance.spreadsheets.return_value
         mock_values_method = (
