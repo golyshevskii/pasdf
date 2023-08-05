@@ -18,9 +18,7 @@ lint:
 
 tests:
 	@$(info INFO | $(shell date) | Makefile → tests)
-	pytest tests/gsheets/tests_gs_main.py -v
-
-
+	pytest tests -v
 
 test-coverage:
 	@echo 'Running test coverage with arguments: '$(pytest-args)
