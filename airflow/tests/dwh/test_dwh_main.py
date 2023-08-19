@@ -1,12 +1,13 @@
 import sys
 
-sys.path.append("/Users/python_poseur/pasdf_develop/pasdf/")
+sys.path.append("/Users/python_poseur/pasdf_develop/pasdf/airflow/")
 
 import unittest
 from unittest.mock import MagicMock, patch
-from psycopg2 import Error
 
+from psycopg2 import Error
 from scripts.dwh.dwh_main import PostgreSQL
+
 
 class TestPostgreSQL(unittest.TestCase):
     DATA = [
@@ -42,7 +43,7 @@ class TestPostgreSQL(unittest.TestCase):
         mock_connection.cursor.assert_called_once()
         mock_cursor.execute.assert_called_once_with("SELECT * FROM hubs")
         mock_cursor.fetchall.assert_called_once()
-    
+
     def test_select_with_conn_data(self):
         mock_cursor = MagicMock()
         mock_cursor.fetchall.return_value = self.DATA

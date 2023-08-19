@@ -1,17 +1,20 @@
+import logging
+
 import psycopg2
 
-from logger import logger
-
-log = logger(__name__)
+logger = logging.getLogger(__name__)
 
 
 class PostgreSQL:
-    def __init__(self, **kwargs) -> None:
+    def __init__(self, conn_string: str = None, **kwargs) -> None:
         """
-        **kwargs: dictionary of connection parameters
+        Args:
+            conn_string: connection string
+            **kwargs: dictionary of connection parameters
+
+
             example:
             kwargs = {
-                "conn_string": f"postgresql://{username}:{password}@{host}:{port}/{dbname}",
                 "host": "host",
                 "port": "port",
                 "database": "database",
@@ -19,7 +22,7 @@ class PostgreSQL:
                 "password": "password",
             }
         """
-        self.conn_string = kwargs.get("conn_string")
+        self.conn_string = conn_string
 
         if not self.conn_string:
             self.conn_data = kwargs
@@ -34,6 +37,8 @@ class PostgreSQL:
         Returns:
             A list of tuples containing the selected data
         """
+        logger.info("Start extracting data from PostgreSQL database")
+
         if self.conn_string:
             conn = psycopg2.connect(self.conn_string)
         else:
@@ -44,8 +49,14 @@ class PostgreSQL:
                 cur.execute(query)
                 data = cur.fetchall()
 
-                log.info("Data extracted successfully")
+                logger.info(
+                    "Data from PostgreSQL database extracted, rows: %s",
+                    cur.rowcount,
+                )
                 return data
             except psycopg2.Error as ex:
-                log.error("An error occurred while extracting data", exc_info=ex)
+                logger.error(
+                    "An error occurred while extracting data from PostgreSQL database",
+                    exc_info=ex,
+                )
                 return []
