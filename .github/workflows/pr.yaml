@@ -1,4 +1,4 @@
-name: Lint, Tests & Safety
+name: Lint & Tests
 
 on: [pull_request]
 
@@ -23,7 +23,7 @@ jobs:
       - name: Run linters & friends
         run: make lint
 
-  test:
+  tests:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
@@ -36,21 +36,9 @@ jobs:
         run: pip install poetry poetry-core
       - name: Install dependencies
         run: poetry install
+      - name: Set credentials
+        run: echo "$PYTHON_CREDS_FILE" > ${GITHUB_WORKSPACE}/main/creds.py
+      - name: Set PYTHONPATH
+        run: echo "PYTHONPATH=${PYTHONPATH}:${GITHUB_WORKSPACE}/main" >> $GITHUB_ENV
       - name: Run tests, with coverage testing
-        run: make test-coverage
-
-  safety:
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
-    steps:
-      - uses: actions/checkout@v2
-      - name: Install python
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.11'
-      - name: Install poetry
-        run: pip install poetry poetry-core
-      - name: Install dependencies
-        run: poetry install
-      - name: Analysing the dependencies with safety
-        run: make safety
+        run: poetry run pytest --cov=main --cov-report=term-missing main

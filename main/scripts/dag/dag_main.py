@@ -4,6 +4,7 @@ from datetime import datetime
 from creds import AIRFLOW_DAGS_PATH
 from dag_patterns import DAG_PATTERN_INCREMENTAL_TABLE_UPDATE
 
+
 logger = logging.getLogger(__name__)
 
 

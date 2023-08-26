@@ -3,6 +3,7 @@ import logging
 from google.oauth2.service_account import Credentials
 from googleapiclient.discovery import build
 
+
 logger = logging.getLogger(__name__)
 
 
@@ -12,12 +13,12 @@ class GoogleSheets:
         "https://www.googleapis.com/auth/drive",
     ]
 
-    def __init__(self, service_account_creds: dict) -> None:
+    def __init__(self, service_account_creds_file: str) -> None:
         """
         Args:
-            service_account_creds: dictionary service account credentials data
+            service_account_creds_file: string path to file service account credentials data
         """
-        self.creds = service_account_creds
+        self.creds_file = service_account_creds_file
 
     def _make_credentials(self) -> Credentials:
         """
@@ -25,7 +26,7 @@ class GoogleSheets:
 
         Returns: service account Credentials instance
         """
-        return Credentials.from_service_account_info(self.creds, scopes=self.SCOPE)
+        return Credentials.from_service_account_file(self.creds_file, scopes=self.SCOPE)
 
     def get_worksheet_data(self, spreadsheet_id: str, sheet_name: str) -> list:
         """

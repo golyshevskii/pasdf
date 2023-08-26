@@ -12,6 +12,6 @@ Documentation
 
 ### Getting started
 
-- [setup](docs/getting_started/setup.md)
+- [Setup](docs/getting_started/setup.md)
 
 ### Development docs
