@@ -1,7 +1,3 @@
-import sys
-
-sys.path.append("/Users/python_poseur/pasdf_develop/pasdf/airflow/")
-
 from unittest.mock import MagicMock, patch
 
 import pytest

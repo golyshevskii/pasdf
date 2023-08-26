@@ -5,6 +5,10 @@ poetry-install:
 	@$(info INFO | $(shell date) | Makefile → poetry-install)
 	poetry install
 
+poetry-update:
+	@$(info INFO | $(shell date) | Makefile → poetry-install)
+	poetry update
+
 format:
 	@$(info INFO | $(shell date) | Makefile → format)
 	poetry run black .
@@ -21,11 +25,11 @@ lint:
 
 tests:
 	@$(info INFO | $(shell date) | Makefile → tests)
-	pytest airflow/tests -v
+	pytest main/tests -v
 
 test-coverage:
 	@$(info INFO | $(shell date) | Makefile → test-coverage)
-	pytest airflow/tests --cov=. --cov-report=term-missing --cov-config=./pyproject.toml -c ./pyproject.toml .
+	pytest main/tests --cov=. --cov-report=term-missing --cov-config=./pyproject.toml -c ./pyproject.toml .
 
 setup:
 	@$(info INFO | $(shell date) | Makefile → setup)

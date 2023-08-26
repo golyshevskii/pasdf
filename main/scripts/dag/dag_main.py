@@ -1,10 +1,7 @@
 import logging
-import sys
 from datetime import datetime
 
-sys.path.append("/Users/python_poseur/pasdf_develop/pasdf/")
-
-from creds import PATH
+from creds import AIRFLOW_DAGS_PATH
 from dag_patterns import DAG_PATTERN_INCREMENTAL_TABLE_UPDATE
 
 logger = logging.getLogger(__name__)
@@ -88,5 +85,5 @@ class DAGBuilder:
             dag_file_name: string file name
             dag_code_string: string DAG code
         """
-        with open(f"{PATH}dags/{dag_file_name}.py", "w") as py_file:
+        with open(f"{AIRFLOW_DAGS_PATH}dags/{dag_file_name}.py", "w") as py_file:
             py_file.write(dag_code_string)
