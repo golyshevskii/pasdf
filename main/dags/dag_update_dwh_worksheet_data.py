@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 
-from scripts.airflow.airflow_gs_dwh_update import update_dwh_worksheet_data
+from scripts.etl.etl_gs_dwh_update import update_dwh_worksheet_data
 
 from airflow import DAG
 from airflow.operators.empty import EmptyOperator

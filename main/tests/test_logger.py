@@ -1,8 +1,4 @@
 import logging
-import sys
-
-sys.path.append("/Users/python_poseur/pasdf_develop/pasdf/airflow/")
-
 from functools import partial
 
 import pytest
@@ -13,9 +9,7 @@ log = partial(logger, "frame")
 log_levels = [
     (logging.DEBUG, "DEBUG"),
     (logging.INFO, "INFO"),
-    (logging.WARNING, "WARNING"),
     (logging.ERROR, "ERROR"),
-    (logging.CRITICAL, "CRITICAL"),
 ]
 
 

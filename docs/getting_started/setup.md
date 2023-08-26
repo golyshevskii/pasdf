@@ -40,3 +40,13 @@ Once the initialization is finished, access the [Airflow](http://localhost:8080/
 username: airflow
 password: airflow
 ```
+
+---
+
+❗ Additionally, for local development and testing purposes, you need to set the environment variable `PYTHONPATH` to the Python scripts folder. You can do it by executing this command:
+
+```
+export PYTHONPATH=$PYTHONPATH:your_absolute_path/pasdf/airflow/
+```
+
+> _Replace the variable `your_absolute_path` with the absolute path to the project folder_

@@ -1,9 +1,7 @@
 import logging
-import sys
 
-sys.path.append("/Users/python_poseur/pasdf_develop/pasdf/")
-
-from creds import GS_CREDS, GS_SPREADSHEET_ID, PATH, PSQL_CONN_STRING
+from creds import (AIRFLOW_DAGS_PATH, GS_CREDS, GS_SPREADSHEET_ID,
+                   PSQL_CONN_STRING)
 from scripts.dwh.dwh_main import PostgreSQL
 from scripts.gsheets.gs_main import GoogleSheets
 
@@ -15,7 +13,7 @@ def update_dwh_worksheet_data(**kwargs) -> None:
     logger.info("Start updating data in DWH worksheet")
 
     with open(
-        f"{PATH}sql/psql/psql_tables_data.sql",
+        f"{AIRFLOW_DAGS_PATH}sql/psql/psql_tables_data.sql",
         "r",
         encoding="utf-8",
     ) as sql_file:
