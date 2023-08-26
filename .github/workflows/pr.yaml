@@ -1,0 +1,56 @@
+name: Lint, Tests & Safety
+
+on: [pull_request]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.11'
+      - name: Install poetry
+        run: pip install poetry poetry-core
+      - name: Install dependencies
+        run: poetry install
+      - name: Run linters & friends
+        run: make lint
+
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.11'
+      - name: Install poetry
+        run: pip install poetry poetry-core
+      - name: Install dependencies
+        run: poetry install
+      - name: Run tests, with coverage testing
+        run: make test-coverage
+
+  safety:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.11'
+      - name: Install poetry
+        run: pip install poetry poetry-core
+      - name: Install dependencies
+        run: poetry install
+      - name: Analysing the dependencies with safety
+        run: make safety
