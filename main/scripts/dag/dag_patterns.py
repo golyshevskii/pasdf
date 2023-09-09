@@ -46,3 +46,7 @@ with DAG(
     dag_start >> task_%s_update >> dag_end
 
 """
+
+DAG_PATTERNS = {
+    0: DAG_PATTERN_INCREMENTAL_TABLE_UPDATE,
+}

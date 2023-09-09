@@ -1,14 +1,16 @@
 import logging
+from inspect import currentframe
 from datetime import datetime
 
 from creds import AIRFLOW_DAGS_PATH
-from dag_patterns import DAG_PATTERN_INCREMENTAL_TABLE_UPDATE
+from dag_patterns import DAG_PATTERNS
+from dag_patterns_builder import DAGPatterns
 
 
 logger = logging.getLogger(__name__)
 
 
-class DAGBuilder:
+class DAGBuilder(DAGPatterns):
     def __init__(self, dags_data: list = None):
         """
         Args:
@@ -16,13 +18,14 @@ class DAGBuilder:
         """
         self.dags_data = dags_data
 
-    def build(self, pattern_name: str = DAG_PATTERN_INCREMENTAL_TABLE_UPDATE):
+    def build(self, pattern_index: int = DAG_PATTERNS[0]):
         """Build the DAG Python code string using Google worksheet data
 
         Args:
             pattern_name: string pattern name from dag_patterns.py script
         """
-        logger.info("Start building DAGs")
+        frame = currentframe().f_code.co_name
+        logger.info(f"{frame} → Start building DAGs")
 
         date = datetime().now().date()
 
@@ -38,25 +41,14 @@ class DAGBuilder:
             )
 
             try:
-                dag_code_string = pattern_name % (
-                    db,
-                    schema,
-                    table,
-                    db,
-                    schema,
-                    table,
-                    date.year,
-                    date.month,
-                    date.day,
-                    schedule,
-                    db,
-                    schema,
-                    table,
-                    columns,
-                    table,
-                    table,
-                    table,
-                )
+                kwargs_data = {
+                    "db": db,
+                    "schema": schema,
+                    "table": table,
+                    "columns": columns,
+                    "schedule": schedule,
+                }
+                dag_code_string = self._build_pattern(pattern_index, **kwargs_data)
 
                 dag_file_name = "dag_%s_%s_%s_incremental_update.py" % (
                     db,
@@ -66,18 +58,12 @@ class DAGBuilder:
                 self._build_file(dag_file_name, dag_code_string)
             except Exception as ex:
                 logger.error(
-                    "An error occurred while building the DAG code, data:\n%s",
+                    f"{frame} → An error occurred while building the DAG code, data:\n%s",
                     data,
                     exc_info=ex,
                 )
 
-        logger.info("DAGs built successfully")
-
-    def _build_schedule_crone_string(self, schedule: str = "0 0 * * *"):
-        pass
-
-    def _build_code_string(self):
-        pass
+        logger.info(f"{frame} → DAGs built successfully")
 
     def _build_file(self, dag_file_name: str, dag_code_string: str):
         """Create Python file from the DAG code string
