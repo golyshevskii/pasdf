@@ -1,10 +1,10 @@
 from datetime import datetime, timedelta
 
-from scripts.etl.etl_gs_dwh_update import update_dwh_worksheet_data
-
 from airflow import DAG
 from airflow.operators.empty import EmptyOperator
 from airflow.operators.python import PythonOperator
+from scripts.etl.etl_gs_dwh_update import update_dwh_worksheet_data
+
 
 dag_args = {
     "owner": "airflow",

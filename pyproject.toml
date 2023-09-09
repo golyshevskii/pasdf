@@ -19,6 +19,24 @@ psycopg2 = "^2.9.7"
 apache-airflow = "^2.6.3"
 safety = "^2.3.5"
 
+[tool.isort]
+line_length = 100
+sections = ["FUTURE", "STDLIB", "DJANGO", "THIRDPARTY", "FIRSTPARTY", "LOCALFOLDER"]
+multi_line_output = 3
+known_django = "django"
+profile = "django"
+src_paths = "./app"
+lines_after_imports = 2
+
+[tool.coverage.run]
+omit = [
+    "**/tests/**",
+    "**/dag/**",
+]
+
+[tool.coverage.report]
+fail_under = 90
+
 [tool.flake8]
 ignore = [
     "E402", # module level import not at top of file

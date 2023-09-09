@@ -1,7 +1,6 @@
 from unittest.mock import MagicMock, patch
 
 import pytest
-from creds import GS_SPREADSHEET_ID
 from scripts.gsheets.gs_main import GoogleSheets
 
 
@@ -24,7 +23,7 @@ class TestGoogleSheets:
     def mock_credentials(self, monkeypatch):
         mock_creds = MagicMock()
         monkeypatch.setattr(
-            "scripts.gsheets.gs_main.Credentials.from_service_account_info", mock_creds
+            "scripts.gsheets.gs_main.Credentials.from_service_account_file", mock_creds
         )
         return mock_creds
 
@@ -43,7 +42,7 @@ class TestGoogleSheets:
         mock_values_method.return_value = {"values": self.GET_DATA}
 
         gs = GoogleSheets(mock_credentials)
-        data = gs.get_worksheet_data(GS_SPREADSHEET_ID, self.DAG_SHEET_NAME)
+        data = gs.get_worksheet_data("GS_SPREADSHEET_ID", self.DAG_SHEET_NAME)
 
         assert data == self.GET_DATA
 
@@ -58,7 +57,7 @@ class TestGoogleSheets:
 
         with patch.object(gs, "_make_credentials", return_value=mock_credentials):
             gs.update_worksheet_data(
-                GS_SPREADSHEET_ID, self.DWH_SHEET_NAME, self.UPDATE_DATA, "A2:B"
+                "GS_SPREADSHEET_ID", self.DWH_SHEET_NAME, self.UPDATE_DATA, "A2:B"
             )
 
         # Assert that the necessary methods were called with the expected arguments
@@ -66,7 +65,7 @@ class TestGoogleSheets:
             "sheets", "v4", credentials=mock_credentials
         )
         mock_spreadsheets.values.return_value.update.assert_called_once_with(
-            spreadsheetId=GS_SPREADSHEET_ID,
+            spreadsheetId="GS_SPREADSHEET_ID",
             range=f"{self.DWH_SHEET_NAME}!A2:B",
             valueInputOption="RAW",
             body={"values": self.UPDATE_DATA},

@@ -1,0 +1,11 @@
+import os
+
+
+env = os.environ
+
+AIRFLOW_DAGS_PATH = env.get("AIRFLOW_DAGS_PATH")
+LOCAL_DAGS_PATH = env.get("LOCAL_DAGS_PATH")
+
+GS_CREDS_FILE_PATH = env.get("GS_CREDS_FILE_PATH")
+GS_SPREADSHEET_ID = env.get("GS_SPREADSHEET_ID")
+PSQL_CONN_STRING = env.get("PSQL_CONN_STRING")

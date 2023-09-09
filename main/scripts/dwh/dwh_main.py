@@ -2,6 +2,7 @@ import logging
 
 import psycopg2
 
+
 logger = logging.getLogger(__name__)
 
 

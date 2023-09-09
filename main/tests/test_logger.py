@@ -4,6 +4,7 @@ from functools import partial
 import pytest
 from logger import logger
 
+
 log = partial(logger, "frame")
 
 log_levels = [

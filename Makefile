@@ -11,14 +11,13 @@ poetry-update:
 
 format:
 	@$(info INFO | $(shell date) | Makefile → format)
-	poetry run black .
 	poetry run isort .
+	poetry run black .
 	poetry run flake8 .
 
 lint:
 	@$(info INFO | $(shell date) | Makefile → lint)
 	poetry run black --check .
-	poetry run isort --check .
 	poetry run flake8 .
 
 .PHONY: tests
