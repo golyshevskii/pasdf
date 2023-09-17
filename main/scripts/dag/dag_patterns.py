@@ -1,4 +1,4 @@
-DAG_PATTERN_INCREMENTAL_TABLE_UPDATE = """from datetime import datetime, timedelta
+PATTERN_0 = """from datetime import datetime, timedelta
 
 from scripts.airflow.airflow_table_update import update_table_incremental
 
@@ -16,14 +16,15 @@ dag_args = {
 }
 
 with DAG(
-    dag_id="dag_%s_%s_%s_incremental_update",
-    description="Update the contents of %s table within %s schema located in the Analytical %s database",
-    start_date=datetime(%s, %s, %s),
+    dag_id="%s",
+    description="%s",
+    start_date=datetime(%s),
     default_args=dag_args,
     schedule_interval=%s,
-    tags=["dag", "incremental", "table", "update"],
+    tags=%s,
     catchup=False,
 ) as dag:
+    # TASKS
     dag_start = EmptyOperator(task_id="dag_start")
 
     task_kwargs = {
@@ -42,11 +43,11 @@ with DAG(
 
     dag_end = EmptyOperator(task_id="dag_end")
 
-    # task chain
+    # TASK CHAIN
     dag_start >> task_%s_update >> dag_end
 
 """
 
-DAG_PATTERNS = {
-    0: DAG_PATTERN_INCREMENTAL_TABLE_UPDATE,
+PATTERNS = {
+    0: PATTERN_0,
 }
